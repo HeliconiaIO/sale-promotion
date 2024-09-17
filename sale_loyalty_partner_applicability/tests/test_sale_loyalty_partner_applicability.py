@@ -231,3 +231,10 @@ class TestSaleLoyaltyPartnerApplicability(TransactionCase):
         sale_4 = self._create_sale(self.partner3)
         with self.assertRaises(ValidationError):
             self._apply_promo_code(sale_4, coupon_2.code)
+
+    def test_04_get_valid_products(self):
+        sale = self._create_sale(self.partner2)
+        resut = self.program_no_restriction.with_context(
+            order=sale
+        )._get_valid_products(self.product_a)
+        self.assertTrue(resut)
