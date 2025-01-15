@@ -1,5 +1,6 @@
 # Copyright 2021 Tecnativa - David Vidal
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+from odoo import Command
 from odoo.tests import Form, TransactionCase
 
 
@@ -12,14 +13,12 @@ class TestSaleCouponCriteriaMultiProduct(TransactionCase):
             {
                 "name": "Test pricelist",
                 "item_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "applied_on": "3_global",
                             "compute_price": "formula",
                             "base": "list_price",
-                        },
+                        }
                     )
                 ],
             }
@@ -43,19 +42,15 @@ class TestSaleCouponCriteriaMultiProduct(TransactionCase):
                 "trigger": "auto",
                 "applies_on": "current",
                 "rule_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_point_mode": "order",
                             "minimum_qty": 1,
-                        },
+                        }
                     )
                 ],
                 "reward_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_type": "discount",
                             "required_points": 1,
@@ -63,7 +58,7 @@ class TestSaleCouponCriteriaMultiProduct(TransactionCase):
                             "discount_mode": "percent",
                             "discount_applicability": "specific",
                             "discount_product_ids": cls.product_a | cls.product_c,
-                        },
+                        }
                     )
                 ],
             }
