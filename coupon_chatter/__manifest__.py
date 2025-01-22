@@ -3,7 +3,7 @@
 {
     "name": "Coupon Chatter",
     "summary": "Register messages and activities on the sale coupon records",
-    "version": "16.0.1.0.0",
+    "version": "17.0.1.0.0",
     "development_status": "Production/Stable",
     "category": "Sale",
     "website": "https://github.com/OCA/sale-promotion",

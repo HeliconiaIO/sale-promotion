@@ -73,6 +73,8 @@ Contributors
   - Pilar Vargas
   - Stefan Ungureanu
 
+- [Heliconia Solutions Pvt. Ltd.](https://www.heliconia.io)
+
 Maintainers
 -----------
 
