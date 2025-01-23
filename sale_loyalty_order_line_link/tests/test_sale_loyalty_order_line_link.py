@@ -1,9 +1,12 @@
 # Copyright 2021 Tecnativa - David Vidal
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo.tests import Form, TransactionCase
+from odoo import Command
+from odoo.tests import Form
+
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class TestSaleCouponCriteriaMultiProduct(TransactionCase):
+class TestSaleCouponCriteriaMultiProduct(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -12,9 +15,7 @@ class TestSaleCouponCriteriaMultiProduct(TransactionCase):
             {
                 "name": "Test pricelist",
                 "item_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "applied_on": "3_global",
                             "compute_price": "formula",
@@ -43,9 +44,7 @@ class TestSaleCouponCriteriaMultiProduct(TransactionCase):
                 "trigger": "auto",
                 "applies_on": "current",
                 "rule_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_point_mode": "order",
                             "minimum_qty": 1,
@@ -53,9 +52,7 @@ class TestSaleCouponCriteriaMultiProduct(TransactionCase):
                     )
                 ],
                 "reward_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_type": "discount",
                             "required_points": 1,
@@ -188,3 +185,27 @@ class TestSaleCouponCriteriaMultiProduct(TransactionCase):
         self.assertTrue(line_c.reward_line_ids)
         self.assertEqual(line_a.reward_generated_line_ids, reward_line)
         self.assertFalse(line_b.reward_generated_line_ids)
+
+    def test_04_select_additional_fields(self):
+        # Call the _select_additional_fields method
+        sale_report = self.env["sale.report"]
+        fields = sale_report._select_additional_fields()
+
+        # Assert that the loyalty_program_id field is included
+        self.assertIn(
+            "l.loyalty_program_id",
+            fields.values(),
+            "The 'loyalty_program_id' field is not added to the select statement.",
+        )
+
+    def test_05_group_by_sale(self):
+        # Call the _group_by_sale method
+        sale_report = self.env["sale.report"]
+        group_by_fields = sale_report._group_by_sale()
+
+        # Assert that 'l.loyalty_program_id' is included in the GROUP BY clause
+        self.assertIn(
+            "l.loyalty_program_id",
+            group_by_fields,
+            "The 'loyalty_program_id' field is not included in the GROUP BY clause.",
+        )
