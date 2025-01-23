@@ -1,10 +1,21 @@
 # Copyright 2021 Tecnativa - David Vidal
 # Copyright 2023 Tecnativa - Stefan Ungureanu
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo.tests import TransactionCase
+
+from odoo import Command
+
+from odoo.addons.base.tests.common import BaseCommon
 
 
-class LoyaltyIncompatibilityCase(TransactionCase):
+class LoyaltyIncompatibilityCase(BaseCommon):
+    """Base test setup for loyalty incompatibility tests.
+
+    This setup is kept in the base ``loyalty_incompatibility`` module so that
+    dependent modules (``sale_loyalty_incompatibility`` and a possible future
+    ``pos_loyalty_incompatibility``) can inherit it without duplicating the
+    common test data.
+    """
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -20,9 +31,7 @@ class LoyaltyIncompatibilityCase(TransactionCase):
                 "trigger": "auto",
                 "applies_on": "current",
                 "rule_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_point_mode": "order",
                             "minimum_qty": 1,
@@ -30,9 +39,7 @@ class LoyaltyIncompatibilityCase(TransactionCase):
                     ),
                 ],
                 "reward_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_type": "discount",
                             "required_points": 1,
@@ -51,9 +58,7 @@ class LoyaltyIncompatibilityCase(TransactionCase):
                 "program_type": "coupons",
                 "applies_on": "current",
                 "rule_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_point_mode": "order",
                             "minimum_qty": 1,
@@ -62,9 +67,7 @@ class LoyaltyIncompatibilityCase(TransactionCase):
                     ),
                 ],
                 "reward_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_type": "product",
                             "reward_product_id": cls.product_c.id,
@@ -82,9 +85,7 @@ class LoyaltyIncompatibilityCase(TransactionCase):
                 "applies_on": "current",
                 "incompatible_promotion_ids": [(4, cls.promotion.id)],
                 "rule_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_point_mode": "order",
                             "minimum_qty": 1,
@@ -93,9 +94,7 @@ class LoyaltyIncompatibilityCase(TransactionCase):
                     ),
                 ],
                 "reward_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_type": "product",
                             "reward_product_id": cls.product_c.id,
