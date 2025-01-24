@@ -3,3 +3,5 @@
   - Pilar Vargas
 - [Ooops404](https://www.ooops404.com):
   - Ilyas
+- [Heliconia Solutions Pvt. Ltd.](https://www.heliconia.io)
+  - Bhavesh Heliconia

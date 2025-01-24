@@ -188,3 +188,27 @@ class TestSaleCouponCriteriaMultiProduct(TransactionCase):
         self.assertTrue(line_c.reward_line_ids)
         self.assertEqual(line_a.reward_generated_line_ids, reward_line)
         self.assertFalse(line_b.reward_generated_line_ids)
+
+    def test_04_select_additional_fields(self):
+        # Call the _select_additional_fields method
+        sale_report = self.env["sale.report"]
+        fields = sale_report._select_additional_fields()
+
+        # Assert that the loyalty_program_id field is included
+        self.assertIn(
+            "l.loyalty_program_id",
+            fields.values(),
+            "The 'loyalty_program_id' field is not added to the select statement.",
+        )
+
+    def test_05_group_by_sale(self):
+        # Call the _group_by_sale method
+        sale_report = self.env["sale.report"]
+        group_by_fields = sale_report._group_by_sale()
+
+        # Assert that 'l.loyalty_program_id' is included in the GROUP BY clause
+        self.assertIn(
+            "l.loyalty_program_id",
+            group_by_fields,
+            "The 'loyalty_program_id' field is not included in the GROUP BY clause.",
+        )
