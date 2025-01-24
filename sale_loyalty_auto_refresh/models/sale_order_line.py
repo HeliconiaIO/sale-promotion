@@ -36,7 +36,7 @@ class SaleOrderLine(models.Model):
         # Until we restart Odoo, we won't get new triggers from params. Once restarted
         # the method will return an empty set.
         new_triggers = self._new_trigger()
-        if old_data != new_data or any(x in new_triggers for x in vals):
+        if old_data != new_data or self._check_vals_in_triggers(vals, new_triggers):
             (old_orders | new_orders)._auto_refresh_coupons()
         return res
 

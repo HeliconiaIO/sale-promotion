@@ -40,13 +40,13 @@ class SaleOrder(models.Model):
         # Until we restart Odoo, we won't get new triggers from params. Once restarted
         # the method will return an empty set.
         new_triggers = self._new_trigger()
-        if old_data != new_data or any(x in new_triggers for x in vals):
+        if old_data != new_data or self._check_vals_in_triggers(vals, new_triggers):
             self._auto_refresh_coupons()
         return res
 
     def _auto_refresh_coupons(self):
         orders = self.with_context(skip_auto_refresh_coupons=True).filtered(
-            type(self)._allow_recompute_coupon_lines
+            lambda r: r._allow_recompute_coupon_lines()
         )
         for order in orders:
             order._update_programs_and_rewards()
@@ -55,9 +55,21 @@ class SaleOrder(models.Model):
     def action_apply_rewards(self):
         self.ensure_one()
         claimable_rewards = self._get_claimable_rewards()
-        for coupon, reward in claimable_rewards.items():
+        for coupon, rewards in claimable_rewards.items():
+            if (
+                len(rewards) != 1
+                or (rewards.reward_type == "product" and rewards.multi_product)
+                or rewards in self.order_line.reward_id
+            ):
+                continue
+
             try:
-                self._apply_program_reward(reward, coupon)
+                res = self._apply_program_reward(rewards, coupon)
+                if res and "error" in res:
+                    logger.debug(
+                        "Error applying reward %s: %s", rewards.id, res["error"]
+                    )
+                    continue
                 self._update_programs_and_rewards()
             except (UserError, ValidationError) as e:
                 # Ignore exception errors to unblock the user when creating/writing

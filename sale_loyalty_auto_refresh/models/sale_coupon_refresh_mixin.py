@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from odoo.http import request
 
 
 class SaleCouponRefreshMixin(models.AbstractModel):
@@ -33,7 +34,20 @@ class SaleCouponRefreshMixin(models.AbstractModel):
             .replace(" ", "")
             .split(",")
         )
-        return {x for x in additional_triggers if x in self._fields}
+        return {x for x in additional_triggers if x and x.split(".")[0] in self._fields}
+
+    def _check_vals_in_triggers(self, vals, triggers):
+        """Check if any field in `vals` is a trigger.
+        Handles dotted paths as well.
+        """
+        for trigger in triggers:
+            # Simple field
+            if trigger in vals:
+                return True
+            path = trigger.split(".")
+            if any(part in vals for part in path):
+                return True
+        return False
 
     @api.depends(lambda self: list(self._get_auto_refresh_coupons_triggers()))
     def _compute_auto_refresh_coupon_triggers_data(self):
@@ -58,7 +72,11 @@ class SaleCouponRefreshMixin(models.AbstractModel):
             of `self.read()`)
             The list is sorted by "id" key.
         """
-        self.invalidate_recordset(["auto_refresh_coupon_triggers_data"])
+        triggers = self._get_auto_refresh_coupons_triggers()
+        relational_triggers = {t.split(".")[0] for t in triggers if "." in t}
+        if relational_triggers:
+            self.env.invalidate_all(relational_triggers)
+        self.env.invalidate_all(["auto_refresh_coupon_triggers_data"])
         return sorted(
             self.read(["auto_refresh_coupon_triggers_data"]), key=lambda d: d["id"]
         )
@@ -80,9 +98,9 @@ class SaleCouponRefreshMixin(models.AbstractModel):
         :return: True if auto-refresh should be skipped
         """
         ctx = self.env.context
-        # Checking for `website_id` because `website_sale_coupon` already
-        # refreshes coupons on every cart_update and every checkout
-        # controller reload
-        # NB: no need to add `website_sale_coupon` as dependency since we
-        # only use it for this context flag
-        return ctx.get("skip_auto_refresh_coupons") or ctx.get("website_id")
+        # Checking for `website_id` because `website_sale_loyalty` already
+        # refreshes coupons on every cart_update.
+        # However, we only skip if we are actually in a frontend request.
+        return ctx.get("skip_auto_refresh_coupons") or (
+            ctx.get("website_id") and getattr(request, "is_frontend", False)
+        )
