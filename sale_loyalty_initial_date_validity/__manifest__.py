@@ -3,11 +3,11 @@
 {
     "name": "Sale Loyalty Initial Date Validity",
     "summary": "",
-    "version": "16.0.1.0.1",
+    "version": "18.0.1.0.0",
     "development_status": "Production/Stable",
     "category": "Sale",
     "website": "https://github.com/OCA/sale-promotion",
     "author": "Tecnativa, Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "depends": ["sale_loyalty", "loyalty_initial_date_validity"],
+    "depends": ["sale_loyalty"],
 }
