@@ -1,6 +1,7 @@
 # Copyright 2023 ACSONE SA/NV
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo import Command
 
 from odoo.addons.sale_loyalty.tests.common import TestSaleCouponCommon
 
@@ -9,10 +10,14 @@ class TestSaleOrder(TestSaleCouponCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-
         # Deactivate default promotion program
         cls.immediate_promotion_program.active = False
-
+        cls.steve = cls.env["res.partner"].create(
+            {
+                "name": "Steve Bucknor",
+                "email": "steve.bucknor@example.com",
+            }
+        )
         cls.order = cls.env["sale.order"].create({"partner_id": cls.steve.id})
 
     def _create_discount_program(self, product):
@@ -24,19 +29,15 @@ class TestSaleOrder(TestSaleCouponCommon):
                 "applies_on": "current",
                 "company_id": self.env.company.id,
                 "rule_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
-                            "product_ids": [(4, product.id)],
+                            "product_ids": [Command.link(product.id)],
                             "minimum_qty": 1,
                         },
                     )
                 ],
                 "reward_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_type": "discount",
                             "discount": 50,
@@ -56,18 +57,14 @@ class TestSaleOrder(TestSaleCouponCommon):
                 "applies_on": "current",
                 "company_id": self.env.company.id,
                 "rule_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "code": "PROMOTION",
                         },
                     )
                 ],
                 "reward_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "reward_type": "discount",
                             "discount": 50,
@@ -87,18 +84,14 @@ class TestSaleOrder(TestSaleCouponCommon):
                 "applies_on": "future",
                 "company_id": self.env.company.id,
                 "rule_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "minimum_amount": 50,
                         },
                     )
                 ],
                 "reward_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "discount": 15,
                         },
@@ -116,9 +109,7 @@ class TestSaleOrder(TestSaleCouponCommon):
     def test_reward_amount_tax_incl(self):
         program = self._create_discount_program(self.product_A)
         self.order.order_line = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "product_id": self.product_A.id,
                 },
@@ -134,12 +125,11 @@ class TestSaleOrder(TestSaleCouponCommon):
             2,
             "Untaxed reward amount should be 50% of untaxed unit price of product A",
         )
+        tax = self.product_A.taxes_id[:1]  # Use the first tax
+        computed = tax.sudo().compute_all(self.product_A.lst_price)
         self.assertAlmostEqual(
             self.order.reward_amount_tax_incl,
-            -0.5
-            * self.product_A.taxes_id.compute_all(self.product_A.lst_price)[
-                "total_included"
-            ],
+            -0.5 * computed["total_included"],
             2,
             "Tax included reward amount should be 50% of tax included unit "
             "price of product A",
@@ -149,9 +139,7 @@ class TestSaleOrder(TestSaleCouponCommon):
     def test_promo_codes(self):
         program = self._create_discount_code_program()
         self.order.order_line = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "product_id": self.product_A.id,
                 },
@@ -178,9 +166,7 @@ class TestSaleOrder(TestSaleCouponCommon):
         program = self._create_discount_next_order()
         self.assertGreater(self.product_A.lst_price, 50)
         self.order.order_line = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "product_id": self.product_A.id,
                 },
