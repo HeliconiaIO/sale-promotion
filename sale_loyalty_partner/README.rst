@@ -39,6 +39,12 @@ Analysis.
 .. contents::
    :local:
 
+Use Cases / Context
+===================
+
+The "Partner" information only field has been added in "Discount &
+Loyalty" (loyalty.program) and "Sales Analysis".
+
 Bug Tracker
 ===========
 
@@ -65,6 +71,11 @@ Contributors
    -  Pedro M. Baeza
    -  Carlos Roca
    -  Pilar Vargas
+   -  Víctor Martínez
+
+-  `Heliconia Solutions Pvt. Ltd. <https://www.heliconia.io>`__
+
+   -  Bhavesh Heliconia
 
 Maintainers
 -----------
