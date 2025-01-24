@@ -1,6 +1,6 @@
-============
-Coupon Limit
-============
+==================
+Sale Loyalty Limit
+==================
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -105,6 +105,10 @@ Contributors
 - `Akretion <https://www.akretion.com>`__:
 
   - Florian Mounier
+
+- `Heliconia Solutions Pvt. Ltd. <https://www.heliconia.io>`__
+
+  - Bhavesh Heliconia
 
 Maintainers
 -----------
