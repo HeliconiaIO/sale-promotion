@@ -39,7 +39,7 @@ sale orders.
 Configuration
 =============
 
-Configure the promotion as told in ``coupon_multi_gift`` readme.
+Configure the promotion as told in ``loyalty_multi_gift`` readme.
 
 Usage
 =====
@@ -81,6 +81,10 @@ Contributors
 - `Domatix <https://www.domatix.com>`__:
 
   - Carolina Ferrer
+
+- `Heliconia Solutions Pvt. Ltd. <https://www.heliconia.io>`__
+
+  - Bhavesh Heliconia
 
 Maintainers
 -----------
