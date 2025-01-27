@@ -20,8 +20,7 @@ class LoyaltyProgram(models.Model):
             )
             new_rule_products = {}
             for rule, rule_product in rule_products.items():
-                # we only check applicability if a product is set
-                if rule_product and rule._is_partner_valid(applicable_partner):
+                if rule._is_partner_valid(applicable_partner):
                     new_rule_products[rule] = rule_product
                 else:
                     new_rule_products[rule] = self.env["product.product"]
