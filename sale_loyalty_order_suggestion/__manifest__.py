@@ -8,7 +8,7 @@
     "category": "Sale",
     "website": "https://github.com/OCA/sale-promotion",
     "author": "Tecnativa, Odoo Community Association (OCA)",
-    "maintainers": ["chienandalu"],
+    "maintainers": ["pilarvargas-tecnativa"],
     "license": "AGPL-3",
     "depends": ["sale_loyalty", "sale_loyalty_initial_date_validity"],
     "data": [
