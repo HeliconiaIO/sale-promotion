@@ -69,7 +69,8 @@ msgstr "ID"
 #. module: sale_loyalty_order_suggestion
 #: model:ir.model.fields,help:sale_loyalty_order_suggestion.field_sale_loyalty_rule_product_line_wizard__pricelist_id
 msgid "If you change the pricelist, only newly added lines will be affected."
-msgstr "Se si modifica il listino, solo le nuove righe aggiunte verranno interessate."
+msgstr ""
+"Se si modifica il listino, solo le nuove righe aggiunte verranno interessate."
 
 #. module: sale_loyalty_order_suggestion
 #: model:ir.model.fields,field_description:sale_loyalty_order_suggestion.field_sale_loyalty_rule_product_line_wizard__units_included
