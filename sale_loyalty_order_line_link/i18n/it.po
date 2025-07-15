@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: sale_loyalty_order_line_link
+#: model_terms:ir.ui.view,arch_db:sale_loyalty_order_line_link.loyalty_program_view_form_inherit
+msgid "<span class=\"o_stat_text\">Related SOs</span>"
+msgstr ""
+
+#. module: sale_loyalty_order_line_link
 #: model:ir.model.fields,help:sale_loyalty_order_line_link.field_sale_order_line__reward_line_ids
 msgid "Link on the reward lines applied from this one"
 msgstr "Collegamento alle righe premio applicate da questa"
@@ -34,6 +39,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_loyalty_order_line_link.view_order_product_search
 msgid "Loyalty Program"
 msgstr "Programma fedeltà"
+
+#. module: sale_loyalty_order_line_link
+#: model:ir.model,name:sale_loyalty_order_line_link.model_loyalty_program
+msgid "Loyalty display on a website"
+msgstr ""
 
 #. module: sale_loyalty_order_line_link
 #: model:ir.model.fields,help:sale_loyalty_order_line_link.field_sale_order_line__reward_origin_generated_line_ids
@@ -56,6 +66,11 @@ msgstr "Righe promozione"
 #: model_terms:ir.ui.view,arch_db:sale_loyalty_order_line_link.view_order_form
 msgid "Promotions"
 msgstr "Promozioni"
+
+#. module: sale_loyalty_order_line_link
+#: model:ir.model.fields,field_description:sale_loyalty_order_line_link.field_loyalty_program__related_so_count
+msgid "Related So Count"
+msgstr ""
 
 #. module: sale_loyalty_order_line_link
 #: model:ir.model.fields,field_description:sale_loyalty_order_line_link.field_sale_order_line__reward_generated_line_ids
