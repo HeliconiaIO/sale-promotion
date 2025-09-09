@@ -114,7 +114,8 @@ class TestLoyaltyPartnerApplicabilityCase(BaseCommon):
             "loyalty.program"
         ].create(
             {
-                "name": "Test Loyalty Program Restricted to Partner Domain and Partner ids",
+                "name": "Test Loyalty Program Restricted to Partner Domain and Partner "
+                "ids",
                 "program_type": "promotion",
                 "trigger": "auto",
                 "applies_on": "current",

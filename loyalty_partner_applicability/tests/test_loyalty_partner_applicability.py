@@ -49,3 +49,21 @@ class TestLoyaltyPartnerApplicability(TestLoyaltyPartnerApplicabilityCase):
         self._assertCheckValidPartner(program, self.partner1, True)
         self._assertCheckValidPartner(program, self.partner2, True)
         self._assertCheckValidPartner(program, self.partner3, False)
+
+    def test_partner_valid_when_partner_domain_empty(self):
+        program = self.env["loyalty.program"].create(
+            {
+                "name": "Without explicit restrictions",
+                "partner_ids": [(6, 0, [])],
+                "partner_domain": "",
+            }
+        )
+        partner = self.partner1
+        self.assertTrue(program._is_partner_valid(partner))
+
+    def test_partner_not_valid_but_coupon_sharing_allowed(self):
+        self.env["ir.config_parameter"].set_param("allow_coupon_sharing", "True")
+        partner = self.partner3
+        program = self.program_restricted_to_partner_ids
+        result = program._is_partner_valid(partner)
+        self.assertFalse(result)
