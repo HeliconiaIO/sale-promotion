@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,13 +26,17 @@ msgid "Coupon sharing between partners within the commercial entity."
 msgstr ""
 
 #. module: sale_loyalty_partner_applicability
+#: model:ir.model,name:sale_loyalty_partner_applicability.model_loyalty_program
+msgid "Loyalty Program"
+msgstr ""
+
+#. module: sale_loyalty_partner_applicability
 #: model:ir.model,name:sale_loyalty_partner_applicability.model_sale_order
 msgid "Sales Order"
 msgstr ""
 
 #. module: sale_loyalty_partner_applicability
 #. odoo-python
-#: code:addons/sale_loyalty_partner_applicability/models/sale_order.py:0
 #: code:addons/sale_loyalty_partner_applicability/models/sale_order.py:0
 #, python-format
 msgid "The customer doesn't have access to this reward."
