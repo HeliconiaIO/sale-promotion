@@ -12,7 +12,6 @@ class TestLoyaltyProgramPartner(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
         cls.loyalty_program_a = cls._create_loyalty_program()
         cls.loyalty_program_b = cls._create_loyalty_program()
         cls.loyalty_program_b.partner_id = cls.partner
