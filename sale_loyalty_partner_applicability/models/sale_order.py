@@ -3,7 +3,7 @@
 import logging
 
 from odoo import models
-from odoo.osv import expression
+from odoo.fields import Domain
 
 _logger = logging.getLogger(__name__)
 
@@ -35,9 +35,7 @@ class SaleOrder(models.Model):
     def _try_apply_code(self, code):
         res = super()._try_apply_code(code)
         base_domain = self._get_trigger_domain()
-        domain = expression.AND(
-            [base_domain, [("mode", "=", "with_code"), ("code", "=", code)]]
-        )
+        domain = Domain(base_domain) & [("mode", "=", "with_code"), ("code", "=", code)]
         rules = self.env["loyalty.rule"].search(domain)
         applicable_partner = self._get_applicable_partner_for_loyalty_program()
         if not rules:
